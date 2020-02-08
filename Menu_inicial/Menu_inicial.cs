@@ -7,9 +7,8 @@ using UnityEngine.SceneManagement;
 public class Menu_inicial : MonoBehaviour
 {
 	public float velocidade_ui;
-	public float tempo_liga_cena;
+	public float distancia_folga;
 
-	bool pega_tempo;
 	bool pode_mover;
 
 	void Start(){
@@ -18,11 +17,8 @@ public class Menu_inicial : MonoBehaviour
 
 	void Update(){
 		if(pode_mover){
-			pega_tempo = true;
-			move_botoes();
-
 			if(move_botoes() == true){
-				SceneManager.LoadScene("Game");
+				SceneManager.LoadScene("Menu_Inicial");
 			}
 		}
 	}
@@ -32,17 +28,16 @@ public class Menu_inicial : MonoBehaviour
 	}
 
 	bool move_botoes(){
-		float tempo_1a_chamda = 0;
+		Camera cam = Camera.main;
+		float height = 2f * cam.orthographicSize;
+ 		float width = height * cam.aspect;
 
-		if(pega_tempo){
-			tempo_1a_chamda = Time.time;
-			pega_tempo = false;
-		}
-
+		BoxCollider2D box_play = transform.GetChild(0).GetComponent<BoxCollider2D>();
 		RectTransform play_posicao = transform.GetChild(0).GetComponent<RectTransform>();
 		play_posicao.anchorMin += new Vector2(velocidade_ui,0);
 		play_posicao.anchorMax += new Vector2(velocidade_ui,0);
 		
+		BoxCollider2D box_credits = transform.GetChild(1).GetComponent<BoxCollider2D>();
 		RectTransform credits_posicao = transform.GetChild(1).GetComponent<RectTransform>();
 		credits_posicao.anchorMin -= new Vector2(velocidade_ui,0);
 		credits_posicao.anchorMax -= new Vector2(velocidade_ui,0);
@@ -51,19 +46,19 @@ public class Menu_inicial : MonoBehaviour
 		titulo_posicao.anchorMin += new Vector2(0, velocidade_ui);
 		titulo_posicao.anchorMax += new Vector2(0, velocidade_ui);
 
-		//Hardcode total. A funcao retorna true apos uma determinado tempo. O correto seria
-		/*
-		if(x_botao_play > x_inicial_play + x_camera){
-			return true;
-		}
-		Mas ta foda pq o codigo de movimentacao dos botoes move o achor, que nao tem um transform.position;
-		*/ 
+		print(box_play.Distance(box_credits).distance);
+		print(width);
 
-		if(Time.time > tempo_1a_chamda + tempo_liga_cena){
+		//Gambiarra porca, mas funfa
+		if(box_play.Distance(box_credits).distance / 100 > width + distancia_folga){
 			return true;
 		}
 		return false;
-
-		
 	}
 }
+
+
+
+ // Camera cam = Camera.main;
+ // float height = 2f * cam.orthographicSize;
+ // float width = height * cam.aspect;
