@@ -18,7 +18,7 @@ public class Menu_inicial : MonoBehaviour
 	void Update(){
 		if(pode_mover){
 			if(move_botoes() == true){
-				SceneManager.LoadScene("Menu_Inicial");
+				SceneManager.LoadScene("Transicao");
 			}
 		}
 	}
@@ -45,9 +45,6 @@ public class Menu_inicial : MonoBehaviour
 		RectTransform titulo_posicao = transform.parent.GetChild(0).GetComponent<RectTransform>();
 		titulo_posicao.anchorMin += new Vector2(0, velocidade_ui);
 		titulo_posicao.anchorMax += new Vector2(0, velocidade_ui);
-
-		print(box_play.Distance(box_credits).distance);
-		print(width);
 
 		//Gambiarra porca, mas funfa
 		if(box_play.Distance(box_credits).distance / 100 > width + distancia_folga){
