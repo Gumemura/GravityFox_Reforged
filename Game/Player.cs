@@ -7,7 +7,11 @@ public class Player : MonoBehaviour
 	public float folga_manter_passo;
 	public float velocidade_manter_passo;
 	public LayerMask plataforma_contato;
+	public LayerMask moeda_layer;
 	public GameObject velocidade_global;
+	public int contador_moedas;
+
+
 
 	Rigidbody2D player_rb;
 	BoxCollider2D box_player;
@@ -18,6 +22,7 @@ public class Player : MonoBehaviour
 	float camera_width;
 	float x_inicial;
 
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
 		cam = Camera.main;
 		camera_height = cam.orthographicSize;
 		camera_width = camera_height * cam.aspect;
+		contador_moedas = 0;
 
 		posicao_raycast = box_player.bounds.center;
 	}
@@ -35,11 +41,16 @@ public class Player : MonoBehaviour
 	{
 		Mantendo_Passo();
 		rotacao();
+		morte();
 	}
 
 	void Mantendo_Passo(){
-		if(transform.position.x < x_inicial && transform.position.x > cam.transform.position.x - camera_width - folga_manter_passo){
-			player_rb.velocity = new Vector2(velocidade_manter_passo, 0);
+		Vector2 velocity = player_rb.velocity;
+		velocity.x = velocidade_manter_passo;
+
+		if(transform.position.x < x_inicial && /*transform.position.x > cam.transform.position.x - camera_width - folga_manter_passo*/ morte() == false){
+			//player_rb.velocity = new Vector2(velocidade_manter_passo, player_rb.velocity.y);
+			player_rb.velocity = velocity;
 		}
 	}
 
@@ -89,7 +100,24 @@ public class Player : MonoBehaviour
 		// print("3. posicao_raycast: " + posicao_raycast);
 		// print("4. vel: " + vel);
 		// print("5. sinal_gravidade: " + sinal_gravidade);
-		print("6. y_contato: " + y_contato);
+		// print("6. y_contato: " + y_contato);
+	}
 
+	bool morte(){
+		float diagonal_camera_metade = .5f *  Mathf.Sqrt(Mathf.Pow(2 * camera_height, 2) + Mathf.Pow(2 * camera_width, 2));
+
+		if(Vector2.Distance(box_player.bounds.center, cam.transform.position) > diagonal_camera_metade + folga_manter_passo){
+			print("morreu!");
+			return true;
+		}
+		return false;
+	}
+
+	void OnTriggerEnter2D(Collider2D moeda_collider){
+
+		if(moeda_collider.gameObject.layer == 12){
+			contador_moedas++;
+			Destroy(moeda_collider.gameObject);
+		}
 	}
 }
