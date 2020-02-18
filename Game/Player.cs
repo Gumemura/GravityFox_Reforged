@@ -114,7 +114,6 @@ public class Player : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D moeda_collider){
-
 		if(moeda_collider.gameObject.layer == 12){
 			contador_moedas++;
 			Destroy(moeda_collider.gameObject);

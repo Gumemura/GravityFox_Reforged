@@ -17,7 +17,7 @@ public class Plataformas_Movimento : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		vel_plat = velocidade_global.GetComponent<Velocidade_global>().velocidade;     
+		vel_plat = transform.parent.GetComponent<Plataformas_Spawn_Destroy>().vel;     
         transform.Translate(new Vector3(-vel_plat * Time.deltaTime, 0, 0), Space.Self);
     }
 }
