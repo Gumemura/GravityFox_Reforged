@@ -1,0 +1,14 @@
+GravityFox
+
+Aspectos mobille game
+
+- Poucos inputs (no max dois)
+- Pontuação crescente de forma dinamica (ex.: pontos == 100)
+- Dinamico: alta sencacao de movimento
+- Visualmetne agradavel (colorido)
+- Fases curtas e rapidas
+
+Features
+
+- Disparo
+- Pulo instantaneo (gravidade alta)

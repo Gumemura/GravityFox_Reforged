@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 	{
 		Mantendo_Passo();
 		rotacao();
-		morte();
+		morte_queda();
 	}
 
 	void Mantendo_Passo(){
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
 		// print("6. y_contato: " + y_contato);
 	}
 
-	bool morte(){
+	bool morte_queda(){
 		float diagonal_camera_metade = .5f *  Mathf.Sqrt(Mathf.Pow(2 * camera_height, 2) + Mathf.Pow(2 * camera_width, 2));
 
 		if(Vector2.Distance(box_player.bounds.center, cam.transform.position) > diagonal_camera_metade + folga_manter_passo){
@@ -113,10 +113,14 @@ public class Player : MonoBehaviour
 		return false;
 	}
 
-	void OnTriggerEnter2D(Collider2D moeda_collider){
-		if(moeda_collider.gameObject.layer == 12){
+	void OnTriggerEnter2D(Collider2D col){
+		if(col.gameObject.layer == 12){
 			contador_moedas++;
-			Destroy(moeda_collider.gameObject);
+			Destroy(col.gameObject);
+		}
+
+		if(col.gameObject.tag == "Inimigo"){
+			print("Morreu!");
 		}
 	}
 }

@@ -31,7 +31,9 @@ public class Coin : MonoBehaviour
         // }
     }
 
-    void OnTriggerEnter2D(){
-        Destroy(gameObject); 
+    void OnTriggerEnter2D(Collider2D col){
+        if(col.gameObject.tag != "Inimigo"){
+            Destroy(gameObject);
+        }
     }
 }

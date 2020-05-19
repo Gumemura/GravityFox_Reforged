@@ -11,6 +11,9 @@ public class Inimigos_Spawn_Destroy : MonoBehaviour
 	public float folga_destroy;
 	public float vel;
 
+	public GameObject Pedra;
+
+
 	Camera cam;
 	float camera_width;
     // Start is called before the first frame update
@@ -19,6 +22,8 @@ public class Inimigos_Spawn_Destroy : MonoBehaviour
     	cam = Camera.main;
 		camera_width = 2 * cam.orthographicSize * cam.aspect;
 		StartCoroutine(Spawn_Aguia());
+		StartCoroutine(Spawn_Bouder());
+
     }
 
     // Update is called once per frame
@@ -36,11 +41,22 @@ public class Inimigos_Spawn_Destroy : MonoBehaviour
     IEnumerator Spawn_Aguia(){
     	while(1 == 1){
     		vel = velocidade_global.GetComponent<Velocidade_global>().velocidade;
+
     		float tempo_Spawn_aguia = 50/vel;
 	    	float y_spawn_aguia = Random.Range(1 + .2f, 2 + .3f);
 	    	int gravidade_sinal = (int)Mathf.Sign(Physics2D.gravity.y) * -1;
 	    	Instantiate(Aguia, new Vector2(12 + .5f, y_spawn_aguia * gravidade_sinal), Quaternion.identity, this.transform);
 	    	yield return new WaitForSeconds(tempo_Spawn_aguia);
+    	}
+    }
+
+    IEnumerator Spawn_Bouder(){
+    	while(1 == 1){
+    		vel = velocidade_global.GetComponent<Velocidade_global>().velocidade;
+    		float tempo_Spawn_bouder = 200/vel;
+	    	int gravidade_sinal = (int)Mathf.Sign(Physics2D.gravity.y) * -1;
+	    	Instantiate(Pedra, new Vector2(12 + .5f, (2 + .6f) * gravidade_sinal), Quaternion.identity, this.transform);
+	    	yield return new WaitForSeconds(tempo_Spawn_bouder);
     	}
     }
 }
